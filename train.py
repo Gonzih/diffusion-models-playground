@@ -1,5 +1,7 @@
 import torch
 from denoising_diffusion_pytorch import Unet, GaussianDiffusion, Trainer
+import matplotlib.pyplot as plt
+import numpy as np
 
 model = Unet(
     dim = 64,
@@ -26,3 +28,29 @@ trainer = Trainer(
 )
 
 trainer.train()
+
+def show_image(image):
+  plt.imshow(image.permute(1, 2, 0))
+
+def show_images(images, nrows=4, ncols=4):
+  h, w = 10, 10        # for raster image
+  figsize = [8, 8]     # figure size, inches
+
+  fig, ax = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
+
+  for i, axi in enumerate(ax.flat):
+    # i runs from 0 to (nrows*ncols-1)
+    # axi is equivalent with ax[rowid][colid]
+    img = images[i]
+    axi.imshow(img.permute(1, 2, 0))
+    # get indices of row/column
+    rowid = i // ncols
+    colid = i % ncols
+    # write row/col indices as axes' title for identification
+    axi.set_title("Row:"+str(rowid)+", Col:"+str(colid))
+
+  plt.tight_layout(True)
+  plt.show()
+
+sampled_images = diffusion.sample(batch_size = 16)
+show_images(sampled_images.cpu(), 4, 4)
