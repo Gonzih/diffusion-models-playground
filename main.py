@@ -1,0 +1,20 @@
+import torch
+from denoising_diffusion_pytorch import Unet, GaussianDiffusion
+
+model = Unet(
+    dim = 64,
+    dim_mults = (1, 2, 4, 8)
+)
+
+diffusion = GaussianDiffusion(
+    model,
+    image_size = 128,
+    timesteps = 1000,   # number of steps
+    loss_type = 'l1'    # L1 or L2
+)
+
+training_images = torch.randn(8, 3, 128, 128)
+loss = diffusion(training_images)
+loss.backward()
+
+sampled_images = diffusion.sample(batch_size = 4)
