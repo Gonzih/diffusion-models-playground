@@ -8,6 +8,7 @@ authors = ["Max Gonzih <gonzih@gmail.com>"]
 python = "^3.8"
 denoising-diffusion-pytorch = "^0.27.2"
 torch = "^1.12.1"
+ipykernel = "^6.15.1"
 
 [tool.poetry.dev-dependencies]
 
